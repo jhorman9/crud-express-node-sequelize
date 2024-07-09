@@ -70,10 +70,17 @@ app.put('/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { body } = req;
+
     const user = await User.update(body, {
       where: { id: id } 
     });
-    res.status(201).json({message: 'Actualizado exitosamente', body});
+
+    const usernotArray = user.toString();
+    if (usernotArray === '0') {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.status(201).json({message: 'Actualizado exitosamente', user: body, column_affected: user});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
