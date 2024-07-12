@@ -8,6 +8,13 @@ const db = new Sequelize({
     port: process.env.DB_PORT,
     host: process.env.DB_HOST,
     dialect: 'postgres',
+    // Si está en produccion que ejecute el SSL para evitar el error, si está en local que esté un objeto vacío.
+    dialectOptions: process.env.TYPE === 'local' ? {} : { 
+        ssl: { 
+          require: true, 
+          rejectUnauthorized: false 
+        }
+      }
 });
 
 export default db;

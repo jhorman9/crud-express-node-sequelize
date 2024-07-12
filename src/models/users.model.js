@@ -14,7 +14,13 @@ const User = db.define('users', {
     email: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+            isEmail: {
+                args: true,
+                msg: "Debe ingresar un email válido"
+            }
+        }
     },
     password: {
         type: DataTypes.STRING,
@@ -24,18 +30,6 @@ const User = db.define('users', {
                 args: [6, 12],
                 msg: "La contraseña debe tener entre 6 y 12 caracteres"
             },
-            isAlphanumeric: {
-                args: true,
-                msg: "La contraseña debe ser alfanumerica"
-            },
-            isLowercase: {
-                args: true,
-                msg: "La contraseña debe tener minuscula"
-            },
-            isUppercase: {
-                args: true,
-                msg: "La contraseña debe tener mayuscula"
-            }
         }
     }
 });

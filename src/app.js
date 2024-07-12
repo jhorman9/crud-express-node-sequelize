@@ -3,7 +3,10 @@ import morgan from 'morgan';
 import os from 'os';
 import db from './database/database.js';
 import User from './models/users.model.js';
-import { middleware } from './database/middleware.js';
+// import { middleware } from './database/middleware.js';
+import cors from 'cors';
+import { Sequelize } from 'sequelize';
+
 User
 
 process.loadEnvFile();
@@ -13,7 +16,20 @@ const app = express();
 app.use(express.json());
 app.use(morgan("tiny"));
 
-middleware(app);
+// const whitelist = ["http://localhost:8000", "http://localhost:5173"]
+// const corsOptions = {
+  //   origin: function(origin, cb) {
+    //     if (whitelist.includes(origin)) {
+      //       cb(null, true);
+      //     } else {
+        //       cb(new Error('No permitido por las CORS'));
+        //     }
+        //   }
+        // }
+        
+app.use(cors());
+
+//middleware(app);
 
 db.authenticate()
 .then(() => console.log('Conexión establecida correctamente.'))
@@ -61,7 +77,6 @@ app.post('/users', async (req, res) => {
     const user = await User.create({ username, email, password });
     res.status(201).json( { message: 'Usuario creado exitosamente:',  user});
   } catch (error) {
-    console.log(error)
     res.status(400).json({ error: error.message });
   }
 });

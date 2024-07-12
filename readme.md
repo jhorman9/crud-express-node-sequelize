@@ -228,10 +228,10 @@ app.get("/users/:id", async (req, res) => {
 
 # Variables de entorno
 
-Instalar dotenv
+Usar el nativo de node en app.js
 
 ```shell
-npm i dotenv
+  process.loadEnvFile();
 ```
 
 En la raíz del proyecto creamos un archivo .env
